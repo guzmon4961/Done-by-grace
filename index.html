@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>GRACE — @only_1_beatrice | Hair & Wig Artistry</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:ital,wght@1,900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    .brand-hero-text {
+      font-family: 'Archivo', sans-serif;
+      font-weight: 900;
+      font-style: italic;
+      letter-spacing: -0.05em;
+      line-height: 0.84;
+    }
+    .brand-font-heavy {
+      font-family: 'Archivo Black', sans-serif;
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    
+    @keyframes marquee {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-marquee {
+      display: flex;
+      width: max-content;
+      animation: marquee 18s linear infinite;
+    }
+
+    /* Luxury Velvet & Butterfly Ambient Background */
+    .grace-luxury-bg {
+      background-color: #07080c;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.14) 0%, transparent 45%),
+        radial-gradient(circle at 85% 40%, rgba(212, 175, 55, 0.10) 0%, transparent 45%),
+        linear-gradient(to bottom, rgba(10, 11, 16, 0.85) 0%, rgba(5, 6, 9, 0.98) 100%);
+    }
+
+    .view-panel {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.2s ease-in-out;
+    }
+    .view-panel.active-panel {
+      display: block;
+      opacity: 1;
+    }
+
+    /* Custom Thin Scrollbar */
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 9999px;
+    }
+  </style>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            graceGold: '#E5C158',
+            graceBlue: '#4F7DF3',
+            graceIndigo: '#818CF8',
+            cardDark: '#0E1017',
+            surfaceDark: '#141722'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-zinc-950 flex justify-center items-center min-h-screen antialiased overflow-x-hidden">
+
+  <!-- Main Mobile App Container -->
+  <div class="w-full max-w-[410px] h-screen sm:h-[850px] sm:my-5 sm:rounded-[42px] shadow-[0_25px_70px_-15px_rgba(0,0,0,0.95)] flex flex-col justify-between relative sm:border-[10px] border-zinc-900 grace-luxury-bg box-border overflow-hidden">
+    
+    <!-- Ambient Lighting Orbs -->
+    <div class="absolute top-16 left-6 w-48 h-48 bg-graceBlue/15 rounded-full filter blur-[65px] pointer-events-none z-0"></div>
+    <div class="absolute bottom-24 right-4 w-44 h-44 bg-graceGold/10 rounded-full filter blur-[60px] pointer-events-none z-0"></div>
+
+    <!-- GLOBAL PERSISTENT HEADER -->
+    <div class="w-full z-20 shrink-0">
+      <!-- Live Status Ticker -->
+      <div class="bg-gradient-to-r from-graceBlue via-indigo-500 to-graceBlue text-white py-2 overflow-hidden relative w-full border-b border-white/10">
+        <div id="ticker-content" class="animate-marquee font-extrabold tracking-widest text-[10px] uppercase">
+          <span class="px-4">🦋 GRACE • BEAUTY, COSMETIC & PERSONAL CARE ✨</span>
+          <span class="px-4">👑 WIGS, BRAIDS & CUSTOM INSTALLS • DM @ONLY_1_BEATRICE 💫</span>
+          <span class="px-4">🦋 GRACE • BEAUTY, COSMETIC & PERSONAL CARE ✨</span>
+          <span class="px-4">👑 WIGS, BRAIDS & CUSTOM INSTALLS • DM @ONLY_1_BEATRICE 💫</span>
+        </div>
+      </div>
+
+      <!-- Top Navigation Brand Bar -->
+      <div class="px-5 pt-4 pb-2 flex justify-between items-center w-full">
+        <div class="flex items-center gap-2">
+          <span class="text-white font-black text-xl tracking-tighter italic brand-font-heavy uppercase">
+            GRACE<span class="text-graceGold">🦋</span>
+          </span>
+          <span id="availability-badge" class="bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-[9px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">
+            Books Open
+          </span>
+        </div>
+
+        <div class="flex items-center gap-2.5">
+          <!-- Grace Autonomy Toggle (Owner Control Mode) -->
+          <button onclick="toggleOwnerMode()" id="owner-toggle-btn" class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-zinc-900 border border-zinc-700/80 text-zinc-300 hover:border-graceGold hover:text-graceGold transition-all">
+            ⚙️ Grace Control
+          </button>
+
+          <!-- Direct Instagram Link -->
+          <a href="https://www.instagram.com/only_1_beatrice" target="_blank" rel="noopener noreferrer" class="text-graceGold hover:text-white transition-colors duration-200 p-1" title="Instagram @only_1_beatrice">
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCROLLABLE MAIN CONTENT AREA -->
+    <div class="flex-1 overflow-y-auto px-5 pt-2 pb-24 z-10 custom-scrollbar">
+
+      <!-- ================= TAB 1: HOME & INSTAGRAM HUB ================= -->
+      <div id="home-panel" class="view-panel active-panel">
+        <!-- Hero Typography -->
+        <div class="mt-2 mb-5 flex flex-col relative w-full">
+          <span class="text-graceIndigo text-[10px] font-extrabold tracking-[0.22em] uppercase mb-1">
+            Beauty, Cosmetic & Personal Care
+          </span>
+          <h1 class="text-white text-[44px] brand-hero-text uppercase">
+            <span class="text-graceGold not-italic brand-font-heavy">FLAW</span>LESS
+          </h1>
+          <div class="flex items-baseline gap-3 -mt-0.5">
+            <h2 class="text-graceBlue text-[48px] brand-hero-text">
+              HAIR
+            </h2>
+            <h3 class="text-white text-[38px] brand-hero-text uppercase">
+              STUDIO
+            </h3>
+          </div>
+        </div>
+
+        <!-- Authentic Instagram Profile Card (@only_1_beatrice) -->
+        <div class="w-full bg-gradient-to-b from-surfaceDark/95 via-cardDark/95 to-[#090a0f] backdrop-blur-md rounded-[26px] p-4 border border-zinc-800/90 shadow-[0_20px_40px_rgba(0,0,0,0.65)] mb-4">
+          <div class="flex justify-between items-center mb-3">
+            <div class="flex items-center gap-1.5 text-zinc-400 font-extrabold tracking-widest text-[10px] uppercase">
+              <span class="w-2 h-2 rounded-full bg-graceBlue"></span>
+              INSTAGRAM PROFILE
+            </div>
+            <a href="https://www.instagram.com/wig_done_by_beat" target="_blank" rel="noopener noreferrer" class="bg-graceBlue/20 border border-graceBlue/40 text-indigo-300 text-[9px] font-extrabold px-2.5 py-0.5 rounded-full tracking-wider hover:bg-graceBlue hover:text-white transition">
+              @wig_done_by_beat ↗
+            </a>
+          </div>
+
+          <div class="flex items-center gap-3.5 border-b border-zinc-800/80 pb-4 mb-3.5">
+            <div class="w-14 h-14 rounded-full p-[2px] bg-gradient-to-tr from-graceGold via-pink-500 to-graceBlue shrink-0">
+              <div class="w-full h-full rounded-full bg-zinc-900 flex items-center justify-center text-white font-black text-sm tracking-tight">
+                G🦋
+              </div>
+            </div>
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center gap-1.5">
+                <span class="text-white font-extrabold text-base tracking-tight">Grace 🦋</span>
+                <span class="text-zinc-400 text-xs font-medium">@only_1_beatrice</span>
+              </div>
+              <p class="text-zinc-300 text-[11px] mt-1 leading-relaxed">
+                ZABURI 103:12 • Zaburi 91:1:16 ✨<br>
+                <span class="text-graceIndigo font-semibold">@wig_done_by_beat</span> • <span class="text-zinc-400">@bring_hope_for_vulnerable</span>
+              </p>
+            </div>
+          </div>
+
+          <!-- Real Profile Metrics -->
+          <div class="grid grid-cols-3 text-center mb-3.5">
+            <div class="border-r border-zinc-800/80">
+              <div class="text-white font-black text-sm leading-none">Custom</div>
+              <div class="text-zinc-500 text-[9px] font-bold tracking-widest uppercase mt-1">Consults</div>
+            </div>
+            <div class="border-r border-zinc-800/80">
+              <div class="text-white font-black text-sm leading-none">13.1K</div>
+              <div class="text-zinc-500 text-[9px] font-bold tracking-widest uppercase mt-1">Followers</div>
+            </div>
+            <div>
+              <div class="text-white font-black text-sm leading-none">4,448</div>
+              <div class="text-zinc-500 text-[9px] font-bold tracking-widest uppercase mt-1">Following</div>
+            </div>
+          </div>
+
+          <!-- Dual IG Action Buttons -->
+          <div class="grid grid-cols-2 gap-2">
+            <a href="https://www.instagram.com/only_1_beatrice" target="_blank" rel="noopener noreferrer" class="bg-graceBlue hover:bg-blue-600 text-white text-center font-bold py-2 rounded-xl text-[11px] tracking-wide transition">
+              Follow on IG
+            </a>
+            <button onclick="navigateTo('book-panel')" class="bg-zinc-800 hover:bg-zinc-700 text-white text-center font-bold py-2 rounded-xl text-[11px] tracking-wide border border-zinc-700 transition">
+              Message & Book
+            </button>
+          </div>
+        </div>
+
+        <!-- Quick Size & Consultation Callout -->
+        <div class="p-4 rounded-2xl bg-cardDark/90 border border-zinc-800/90 flex items-center justify-between gap-3">
+          <div>
+            <h4 class="text-white text-xs font-extrabold uppercase tracking-wide">Custom Sizing & Quotes</h4>
+            <p class="text-zinc-400 text-[11px] mt-0.5 leading-snug">
+              Select <span class="text-graceGold font-semibold">Small, Medium, Large, or XL</span> to discuss timing & payment directly with Grace.
+            </p>
+          </div>
+          <button onclick="navigateTo('services-panel')" class="shrink-0 bg-graceGold text-black font-black text-[10px] uppercase tracking-wider px-3.5 py-2.5 rounded-xl hover:brightness-110 transition">
+            Customize →
+          </button>
+        </div>
+      </div>
+
+      <!-- ================= TAB 2: SERVICES & SIZE SELECTOR ================= -->
+      <div id="services-panel" class="view-panel">
+        <div class="mt-2 mb-4">
+          <h2 class="text-white text-2xl font-black uppercase tracking-tight brand-font-heavy">
+            Styles & <span class="text-graceGold">Size Guide</span>
+          </h2>
+          <p class="text-zinc-400 text-xs mt-1">
+            Choose your style and size (Small, Medium, Large, XL). Final time & price are confirmed upon discussion with Grace.
+          </p>
+        </div>
+
+        <!-- Step 1: Select Desired Style -->
+        <div class="mb-4">
+          <label class="block text-[10px] font-extrabold uppercase tracking-widest text-zinc-400 mb-2">
+            1. Select Hair / Wig Service
+          </label>
+          <div id="service-cards-list" class="space-y-2">
+            <!-- Populated dynamically via JS so Grace can edit prices/services -->
+          </div>
+        </div>
+
+        <!-- Step 2: Select Size (Small / Medium / Large / XL) -->
+        <div class="mb-4">
+          <label class="block text-[10px] font-extrabold uppercase tracking-widest text-zinc-400 mb-2">
+            2. Desired Size / Density
+          </label>
+          <div class="grid grid-cols-4 gap-2" id="size-selector-grid">
+            <button type="button" onclick="selectSize('Small')" data-size="Small" class="size-btn py-2.5 px-1 rounded-xl border text-center transition bg-surfaceDark border-zinc-800 text-zinc-300">
+              <div class="font-extrabold text-xs">Small</div>
+              <div class="text-[9px] text-zinc-400 mt-0.5">Detailed</div>
+            </button>
+            <button type="button" onclick="selectSize('Medium')" data-size="Medium" class="size-btn py-2.5 px-1 rounded-xl border text-center transition bg-graceBlue/20 border-graceBlue text-white">
+              <div class="font-extrabold text-xs">Medium</div>
+              <div class="text-[9px] text-indigo-300 mt-0.5">Standard</div>
+            </button>
+            <button type="button" onclick="selectSize('Large')" data-size="Large" class="size-btn py-2.5 px-1 rounded-xl border text-center transition bg-surfaceDark border-zinc-800 text-zinc-300">
+              <div class="font-extrabold text-xs">Large</div>
+              <div class="text-[9px] text-zinc-400 mt-0.5">Full / Bold</div>
+            </button>
+            <button type="button" onclick="selectSize('Extra Large')" data-size="Extra Large" class="size-btn py-2.5 px-1 rounded-xl border text-center transition bg-surfaceDark border-zinc-800 text-zinc-300">
+              <div class="font-extrabold text-xs">XL / Jumbo</div>
+              <div class="text-[9px] text-zinc-400 mt-0.5">Express</div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 3: Length / Finish Preference -->
+        <div class="mb-4">
+          <label class="block text-[10px] font-extrabold uppercase tracking-widest text-zinc-400 mb-2">
+            3. Length / Hair Prep Discussion
+          </label>
+          <div class="grid grid-cols-3 gap-2">
+            <button type="button" onclick="selectLength('Shoulder / Bob')" data-length="Shoulder / Bob" class="length-btn py-2 px-2 rounded-xl border text-[11px] font-bold bg-surfaceDark border-zinc-800 text-zinc-300">
+              Shoulder / Bob
+            </button>
+            <button type="button" onclick="selectLength('Mid-Back / Bra')" data-length="Mid-Back / Bra" class="length-btn py-2 px-2 rounded-xl border text-[11px] font-bold bg-graceBlue/20 border-graceBlue text-white">
+              Mid-Back
+            </button>
+            <button type="button" onclick="selectLength('Waist / Butt')" data-length="Waist / Butt" class="length-btn py-2 px-2 rounded-xl border text-[11px] font-bold bg-surfaceDark border-zinc-800 text-zinc-300">
+              Waist / Long
+            </button>
+          </div>
+        </div>
+
+        <!-- Live Quote & Time Estimate Summary Box -->
+        <div class="p-4 rounded-2xl bg-gradient-to-br from-surfaceDark to-cardDark border border-graceGold/40 mb-4">
+          <div class="flex justify-between items-start mb-2">
+            <div>
+              <span class="text-[9px] font-extrabold uppercase tracking-widest text-graceGold">Live Estimate Preview</span>
+              <h4 id="summary-style-title" class="text-white font-extrabold text-sm mt-0.5">Knotless Braids — Medium (Mid-Back)</h4>
+            </div>
+            <span id="summary-price-badge" class="text-graceGold font-black text-base">$140+</span>
+          </div>
+          <div class="flex items-center justify-between text-[11px] text-zinc-400 border-t border-zinc-800 pt-2 mt-2">
+            <span>Est. Chair Time: <strong id="summary-duration" class="text-white">4.5 hrs</strong></span>
+            <span class="text-indigo-300 font-semibold">Subject to Discussion</span>
+          </div>
+        </div>
+
+        <button onclick="navigateTo('book-panel')" class="w-full bg-graceBlue hover:bg-blue-600 text-white font-extrabold py-3.5 px-5 rounded-2xl text-xs uppercase tracking-widest transition shadow-lg">
+          Continue to Time & Payment Discussion →
+        </button>
+      </div>
+
+      <!-- ================= TAB 3: DIRECT COMMUNICATION, TIME & PAYMENT ================= -->
+      <div id="book-panel" class="view-panel">
+        <div class="mt-2 mb-4">
+          <h2 class="text-white text-2xl font-black uppercase tracking-tight brand-font-heavy">
+            Book & <span class="text-graceBlue">Discuss</span>
+          </h2>
+          <p class="text-zinc-400 text-xs mt-1">
+            Send your desired size, preferred time slot, and payment option directly to Grace to finalize your appointment.
+          </p>
+        </div>
+
+        <form id="consultation-form" onsubmit="sendToGrace(event)" class="space-y-3.5">
+          <!-- Selected Style & Size Pill -->
+          <div class="p-3 rounded-xl bg-surfaceDark border border-zinc-800 flex justify-between items-center">
+            <div>
+              <div class="text-[9px] font-bold uppercase tracking-wider text-zinc-400">Selected Specification</div>
+              <div id="booking-spec-display" class="text-white font-bold text-xs mt-0.5">Knotless Braids • Medium • Mid-Back</div>
+            </div>
+            <button type="button" onclick="navigateTo('services-panel')" class="text-[10px] font-bold text-graceGold underline">
+              Change
+            </button>
+          </div>
+
+          <!-- Client Name & Handle -->
+          <div class="grid grid-cols-2 gap-2.5">
+            <div>
+              <label class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1">Your Name *</label>
+              <input type="text" id="client-name" required placeholder="e.g. Sarah" class="w-full bg-cardDark border border-zinc-800 rounded-xl px-3 py-2.5 text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-graceBlue">
+            </div>
+            <div>
+              <label class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1">Your IG / Phone *</label>
+              <input type="text" id="client-handle" required placeholder="@yourhandle / #" class="w-full bg-cardDark border border-zinc-800 rounded-xl px-3 py-2.5 text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-graceBlue">
+            </div>
+          </div>
+
+          <!-- Desired Date & Time Slot -->
+          <div class="grid grid-cols-2 gap-2.5">
+            <div>
+              <label class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1">Preferred Date *</label>
+              <input type="date" id="preferred-date" required class="w-full bg-cardDark border border-zinc-800 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-graceBlue">
+            </div>
+            <div>
+              <label class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1">Time Window *</label>
+              <select id="preferred-time" class="w-full bg-cardDark border border-zinc-800 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-graceBlue">
+                <option value="Morning (9:00 AM - 12:00 PM)">Morning (9 AM - 12 PM)</option>
+                <option value="Afternoon (12:30 PM - 4:00 PM)">Afternoon (12:30 - 4 PM)</option>
+                <option value="Evening (4:30 PM - 7:30 PM)">Evening (4:30 - 7:30 PM)</option>
+                <option value="Flexible — Discuss with Grace">Flexible (Discuss Time)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Payment Option Selector -->
+          <div>
+            <label class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1.5">Preferred Payment Option</label>
+            <div id="payment-options-container" class="grid grid-cols-2 gap-2">
+              <!-- Populated dynamically based on Grace's active payment settings -->
+            </div>
+          </div>
+
+          <!-- Communication Channel -->
+          <div>
+            <label class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1">Communication Channel</label>
+            <select id="comm-channel" class="w-full bg-cardDark border border-zinc-800 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-graceBlue">
+              <option value="Instagram DM (@only_1_beatrice)">Instagram DM (@only_1_beatrice)</option>
+              <option value="Instagram Wig Page (@wig_done_by_beat)">Instagram Wig Page (@wig_done_by_beat)</option>
+              <option value="WhatsApp / Direct Text">WhatsApp / Direct Text</option>
+            </select>
+          </div>
+
+          <!-- Discussion Notes (Hair provided, color, custom requests) -->
+          <div>
+            <label class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1">Discussion Notes (Color, Hair Included, etc.)</label>
+            <textarea id="discussion-notes" rows="2" placeholder="Tell Grace about your hair length, color #1B/27, or custom wig sizing..." class="w-full bg-cardDark border border-zinc-800 rounded-xl px-3 py-2 text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-graceBlue"></textarea>
+          </div>
+
+          <!-- Submit / Send to Grace -->
+          <div class="pt-1 space-y-2">
+            <button type="submit" class="w-full bg-gradient-to-r from-graceBlue to-indigo-600 hover:brightness-110 text-white font-extrabold py-3.5 px-4 rounded-2xl text-xs uppercase tracking-widest shadow-xl transition">
+              Send Request & Open Chat with Grace 🦋
+            </button>
+            <button type="button" onclick="copyBookingSummary()" class="w-full bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 font-bold py-2.5 px-4 rounded-xl text-[11px] uppercase tracking-wider transition">
+              📋 Copy Formatted Inquiry to Clipboard
+            </button>
+          </div>
+        </form>
+
+        <!-- Confirmation Toast / Message Preview -->
+        <div id="sent-confirmation" class="hidden mt-4 p-4 rounded-2xl bg-emerald-950/60 border border-emerald-500/40 text-xs text-emerald-200">
+          <div class="font-extrabold text-emerald-400 uppercase tracking-wider mb-1">✓ Inquiry Ready & Copied!</div>
+          <p class="leading-relaxed text-[11px]">Your custom size, time window, and payment preference have been copied. Paste directly into Grace's DM or WhatsApp to lock in your slot.</p>
+        </div>
+      </div>
+
+      <!-- ================= TAB 4: POLICIES & GRACE AUTONOMY PANEL ================= -->
+      <div id="policies-panel" class="view-panel">
+        <div class="mt-2 mb-4">
+          <h2 class="text-white text-2xl font-black uppercase tracking-tight brand-font-heavy">
+            Client <span class="text-graceGold">Guidelines</span>
+          </h2>
+          <p class="text-zinc-400 text-xs mt-1">
+            Transparent booking, communication, and payment terms for all clients.
+          </p>
+        </div>
+
+        <div class="space-y-2.5 text-xs text-zinc-300 mb-5">
+          <div class="p-3.5 bg-cardDark border-l-4 border-graceBlue rounded-r-xl">
+            <strong class="text-white uppercase tracking-wider block mb-1 text-[11px]">1. Size & Custom Quote Discussion</strong>
+            Small, Medium, Large, and Extra Large options carry different parting times and hair bundle requirements. Final pricing is confirmed with Grace prior to deposit.
+          </div>
+          <div class="p-3.5 bg-cardDark border-l-4 border-graceGold rounded-r-xl">
+            <strong class="text-white uppercase tracking-wider block mb-1 text-[11px]">2. Flexible Payment Arrangements</strong>
+            Clients may secure slots via deposit or discuss full payment options directly through DM or WhatsApp before the session date.
+          </div>
+          <div class="p-3.5 bg-cardDark border-l-4 border-indigo-400 rounded-r-xl">
+            <strong class="text-white uppercase tracking-wider block mb-1 text-[11px]">3. Punctuality & Rescheduling</strong>
+            Please communicate via <span class="text-white font-semibold">@only_1_beatrice</span> at least 24 hours in advance if your schedule changes.
+          </div>
+        </div>
+
+        <!-- GRACE FULL AUTONOMY CONTROL CENTER (Editable Live Settings) -->
+        <div id="grace-owner-panel" class="hidden p-4 rounded-2xl bg-surfaceDark border-2 border-graceGold/60 space-y-3">
+          <div class="flex justify-between items-center border-b border-zinc-800 pb-2">
+            <span class="text-graceGold font-black text-xs uppercase tracking-wider">🦋 Grace Autonomy Control Panel</span>
+            <span class="text-[9px] text-zinc-400">Auto-Saves</span>
+          </div>
+
+          <!-- Booking Status Toggle -->
+          <div>
+            <label class="block text-[10px] font-bold uppercase text-zinc-400 mb-1">Booking Availability Status</label>
+            <select id="admin-status-select" onchange="updateGraceSettings()" class="w-full bg-cardDark border border-zinc-700 rounded-xl px-3 py-2 text-xs text-white">
+              <option value="Books Open">Books Open (Accepting Inquiries)</option>
+              <option value="Limited Slots">Limited Slots Left</option>
+              <option value="DM for Squeeze-In">DM for Squeeze-In Only</option>
+              <option value="Books Closed">Books Temporarily Closed</option>
+            </select>
+          </div>
+
+          <!-- WhatsApp / Direct Phone Number -->
+          <div>
+            <label class="block text-[10px] font-bold uppercase text-zinc-400 mb-1">Grace WhatsApp Number (with country code)</label>
+            <input type="text" id="admin-whatsapp" placeholder="e.g. 15551234567" onchange="updateGraceSettings()" class="w-full bg-cardDark border border-zinc-700 rounded-xl px-3 py-2 text-xs text-white">
+          </div>
+
+          <!-- Active Payment Methods Checkboxes -->
+          <div>
+            <label class="block text-[10px] font-bold uppercase text-zinc-400 mb-1">Enabled Client Payment Options</label>
+            <div class="grid grid-cols-2 gap-1.5 text-[11px] text-zinc-200">
+              <label class="flex items-center gap-1.5 bg-cardDark p-2 rounded-lg border border-zinc-800">
+                <input type="checkbox" class="admin-pay-check" value="Deposit + Balance at Chair" checked onchange="updateGraceSettings()"> Deposit + Balance
+              </label>
+              <label class="flex items-center gap-1.5 bg-cardDark p-2 rounded-lg border border-zinc-800">
+                <input type="checkbox" class="admin-pay-check" value="Mobile Money / Cash App" checked onchange="updateGraceSettings()"> Mobile Money / App
+              </label>
+              <label class="flex items-center gap-1.5 bg-cardDark p-2 rounded-lg border border-zinc-800">
+                <input type="checkbox" class="admin-pay-check" value="Zelle / Bank Transfer" checked onchange="updateGraceSettings()"> Zelle / Transfer
+              </label>
+              <label class="flex items-center gap-1.5 bg-cardDark p-2 rounded-lg border border-zinc-800">
+                <input type="checkbox" class="admin-pay-check" value="Discuss Payment in DM" checked onchange="updateGraceSettings()"> Discuss in DM
+              </label>
+            </div>
+          </div>
+
+          <!-- Quick Base Price Editor -->
+          <div>
+            <label class="block text-[10px] font-bold uppercase text-zinc-400 mb-1">Edit Starting Base Rates ($)</label>
+            <div id="admin-price-editors" class="space-y-1.5"></div>
+          </div>
+
+          <button type="button" onclick="resetDefaults()" class="w-full text-[10px] text-zinc-400 hover:text-white underline pt-1">
+            Reset to Default Studio Settings
+          </button>
+        </div>
+      </div>
+
+      <!-- Footer Signature -->
+      <div class="w-full text-center mt-6 py-2">
+        <div class="text-zinc-600 text-[9px] font-bold tracking-widest uppercase">
+          @ONLY_1_BEATRICE • @WIG_DONE_BY_BEAT
+        </div>
+      </div>
+
+    </div>
+
+    <!-- BOTTOM PERSISTENT NAVIGATION DOCK -->
+    <nav class="absolute bottom-0 left-0 right-0 h-16 bg-[#090b10]/95 backdrop-blur-md border-t border-zinc-800/90 grid grid-cols-4 z-30 select-none">
+      <button id="btn-home-panel" onclick="navigateTo('home-panel')" class="app-nav-btn flex flex-col items-center justify-center text-[10px] font-extrabold tracking-wider text-graceGold border-t-[3px] border-graceGold transition-all">
+        HOME
+      </button>
+      <button id="btn-services-panel" onclick="navigateTo('services-panel')" class="app-nav-btn flex flex-col items-center justify-center text-[10px] font-extrabold tracking-wider text-zinc-500 transition-all">
+        STYLES & SIZE
+      </button>
+      <button id="btn-book-panel" onclick="navigateTo('book-panel')" class="app-nav-btn flex flex-col items-center justify-center text-[10px] font-extrabold tracking-wider text-zinc-500 transition-all">
+        DISCUSS / BOOK
+      </button>
+      <button id="btn-policies-panel" onclick="navigateTo('policies-panel')" class="app-nav-btn flex flex-col items-center justify-center text-[10px] font-extrabold tracking-wider text-zinc-500 transition-all">
+        POLICIES
+      </button>
+    </nav>
+
+  </div>
+
+  <script>
+    // Default Studio State (Controlled autonomously by Grace)
+    const defaultStudioData = {
+      status: 'Books Open',
+      whatsapp: '',
+      paymentMethods: [
+        'Deposit + Balance at Chair',
+        'Mobile Money / Cash App',
+        'Zelle / Bank Transfer',
+        'Discuss Payment in DM'
+      ],
+      services: [
+        { id: 'knotless', name: 'Knotless Box Braids', basePrice: 140, baseHours: 4.5, desc: 'Clean parting • Lightweight tension-free finish' },
+        { id: 'wig_install', name: 'Custom Wig Install & Styling', basePrice: 110, baseHours: 2.0, desc: 'HD Lace melt • Custom plucking & baby hairs (@wig_done_by_beat)' },
+        { id: 'goddess', name: 'Goddess / Boho Braids', basePrice: 160, baseHours: 5.0, desc: 'Soft human/premium curls • Full voluminous look' },
+        { id: 'stitch', name: 'Stitch Braids / Feed-In', basePrice: 85, baseHours: 2.5, desc: 'Sharp precision lines • Sleek finish' }
+      ]
+    };
+
+    let studioData = JSON.parse(localStorage.getItem('grace_studio_data')) || JSON.parse(JSON.stringify(defaultStudioData));
+
+    // Active Client Selection State
+    let currentSelection = {
+      serviceId: studioData.services[0].id,
+      size: 'Medium',
+      length: 'Mid-Back / Bra',
+      paymentOption: studioData.paymentMethods[0]
+    };
+
+    const sizeMultipliers = {
+      'Small': { priceMod: 1.35, timeMod: 1.4 },
+      'Medium': { priceMod: 1.0, timeMod: 1.0 },
+      'Large': { priceMod: 0.85, timeMod: 0.75 },
+      'Extra Large': { priceMod: 0.75, timeMod: 0.6 }
+    };
+
+    const lengthAddons = {
+      'Shoulder / Bob': 0,
+      'Mid-Back / Bra': 15,
+      'Waist / Butt': 35
+    };
+
+    function navigateTo(targetPanelId) {
+      document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active-panel'));
+      document.getElementById(targetPanelId).classList.add('active-panel');
+
+      document.querySelectorAll('.app-nav-btn').forEach(btn => {
+        btn.classList.remove('text-graceGold', 'border-t-[3px]', 'border-graceGold');
+        btn.classList.add('text-zinc-500');
+      });
+
+      const activeBtn = document.getElementById('btn-' + targetPanelId);
+      if (activeBtn) {
+        activeBtn.classList.remove('text-zinc-500');
+        activeBtn.classList.add('text-graceGold', 'border-t-[3px]', 'border-graceGold');
+      }
+      updateQuoteSummary();
+    }
+
+    function renderServices() {
+      const container = document.getElementById('service-cards-list');
+      container.innerHTML = '';
+
+      studioData.services.forEach(svc => {
+        const isSelected = svc.id === currentSelection.serviceId;
+        const card = document.createElement('div');
+        card.onclick = () => {
+          currentSelection.serviceId = svc.id;
+          renderServices();
+          updateQuoteSummary();
+        };
+        card.className = `p-3.5 rounded-2xl border cursor-pointer transition flex justify-between items-center ${
+          isSelected 
+            ? 'bg-graceBlue/15 border-graceBlue shadow-md' 
+            : 'bg-cardDark/90 border-zinc-800/90 hover:border-zinc-700'
+        }`;
+
+        card.innerHTML = `
+          <div class="pr-2">
+            <div class="flex items-center gap-2">
+              <h4 class="text-white text-xs font-extrabold">${svc.name}</h4>
+              ${isSelected ? '<span class="text-[9px] bg-graceBlue text-white px-1.5 py-0.5 rounded font-bold uppercase">Selected</span>' : ''}
+            </div>
+            <p class="text-zinc-400 text-[10px] mt-0.5">${svc.desc}</p>
+          </div>
+          <div class="text-right shrink-0">
+            <div class="text-graceGold font-black text-xs">From $${svc.basePrice}</div>
+            <div class="text-zinc-500 text-[9px]">~${svc.baseHours} hrs base</div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function selectSize(sizeName) {
+      currentSelection.size = sizeName;
+      document.querySelectorAll('.size-btn').forEach(btn => {
+        if (btn.dataset.size === sizeName) {
+          btn.className = 'size-btn py-2.5 px-1 rounded-xl border text-center transition bg-graceBlue/20 border-graceBlue text-white';
+        } else {
+          btn.className = 'size-btn py-2.5 px-1 rounded-xl border text-center transition bg-surfaceDark border-zinc-800 text-zinc-300';
+        }
+      });
+      updateQuoteSummary();
+    }
+
+    function selectLength(lengthName) {
+      currentSelection.length = lengthName;
+      document.querySelectorAll('.length-btn').forEach(btn => {
+        if (btn.dataset.length === lengthName) {
+          btn.className = 'length-btn py-2 px-2 rounded-xl border text-[11px] font-bold bg-graceBlue/20 border-graceBlue text-white';
+        } else {
+          btn.className = 'length-btn py-2 px-2 rounded-xl border text-[11px] font-bold bg-surfaceDark border-zinc-800 text-zinc-300';
+        }
+      });
+      updateQuoteSummary();
+    }
+
+    function renderPaymentOptions() {
+      const container = document.getElementById('payment-options-container');
+      container.innerHTML = '';
+
+      if (!studioData.paymentMethods.includes(currentSelection.paymentOption)) {
+        currentSelection.paymentOption = studioData.paymentMethods[0] || 'Discuss in DM';
+      }
+
+      studioData.paymentMethods.forEach(method => {
+        const isSelected = currentSelection.paymentOption === method;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.onclick = () => {
+          currentSelection.paymentOption = method;
+          renderPaymentOptions();
+        };
+        btn.className = `p-2.5 rounded-xl border text-left text-[11px] font-bold transition ${
+          isSelected
+            ? 'bg-graceGold/20 border-graceGold text-graceGold'
+            : 'bg-cardDark border-zinc-800 text-zinc-300 hover:border-zinc-700'
+        }`;
+        btn.innerText = method;
+        container.appendChild(btn);
+      });
+    }
+
+    function updateQuoteSummary() {
+      const svc = studioData.services.find(s => s.id === currentSelection.serviceId) || studioData.services[0];
+      const mult = sizeMultipliers[currentSelection.size] || sizeMultipliers['Medium'];
+      const lenCost = lengthAddons[currentSelection.length] || 0;
+
+      const estPrice = Math.round((svc.basePrice * mult.priceMod) + lenCost);
+      const estHours = (svc.baseHours * mult.timeMod).toFixed(1);
+
+      document.getElementById('summary-style-title').innerText = `${svc.name} — ${currentSelection.size} (${currentSelection.length})`;
+      document.getElementById('summary-price-badge').innerText = `~$${estPrice}`;
+      document.getElementById('summary-duration').innerText = `${estHours} hrs`;
+      document.getElementById('booking-spec-display').innerText = `${svc.name} • ${currentSelection.size} • ${currentSelection.length} (~$${estPrice})`;
+    }
+
+    function buildFormattedMessage() {
+      const svc = studioData.services.find(s => s.id === currentSelection.serviceId) || studioData.services[0];
+      const name = document.getElementById('client-name').value.trim() || 'Client';
+      const handle = document.getElementById('client-handle').value.trim() || 'Not provided';
+      const date = document.getElementById('preferred-date').value || 'Flexible Date';
+      const time = document.getElementById('preferred-time').value;
+      const notes = document.getElementById('discussion-notes').value.trim() || 'None';
+
+      return `🦋 Hi Grace (@only_1_beatrice)! I'd like to book & discuss a hair appointment:\n\n` +
+             `• Name: ${name} (${handle})\n` +
+             `• Desired Style: ${svc.name}\n` +
+             `• Size / Density: ${currentSelection.size}\n` +
+             `• Length: ${currentSelection.length}\n` +
+             `• Preferred Date & Time: ${date} | ${time}\n` +
+             `• Payment Option: ${currentSelection.paymentOption}\n` +
+             `• Notes: ${notes}`;
+    }
+
+    function copyBookingSummary() {
+      const msg = buildFormattedMessage();
+      navigator.clipboard.writeText(msg).then(() => {
+        const box = document.getElementById('sent-confirmation');
+        box.classList.remove('hidden');
+      });
+    }
+
+    function sendToGrace(e) {
+      e.preventDefault();
+      const msg = buildFormattedMessage();
+      const channel = document.getElementById('comm-channel').value;
+
+      navigator.clipboard.writeText(msg).catch(() => {});
+      document.getElementById('sent-confirmation').classList.remove('hidden');
+
+      if (channel.includes('WhatsApp') && studioData.whatsapp.trim() !== '') {
+        const cleanPhone = studioData.whatsapp.replace(/\D/g, '');
+        window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+      } else if (channel.includes('Wig Page')) {
+        window.open('https://www.instagram.com/wig_done_by_beat', '_blank');
+      } else {
+        window.open('https://www.instagram.com/only_1_beatrice', '_blank');
+      }
+    }
+
+    // GRACE AUTONOMY OWNER CONTROLS
+    function toggleOwnerMode() {
+      navigateTo('policies-panel');
+      const panel = document.getElementById('grace-owner-panel');
+      panel.classList.toggle('hidden');
+      renderOwnerEditors();
+    }
+
+    function renderOwnerEditors() {
+      document.getElementById('admin-status-select').value = studioData.status;
+      document.getElementById('admin-whatsapp').value = studioData.whatsapp;
+
+      document.querySelectorAll('.admin-pay-check').forEach(cb => {
+        cb.checked = studioData.paymentMethods.includes(cb.value);
+      });
+
+      const priceContainer = document.getElementById('admin-price-editors');
+      priceContainer.innerHTML = '';
+      studioData.services.forEach((svc, idx) => {
+        const row = document.createElement('div');
+        row.className = 'flex items-center justify-between gap-2 bg-cardDark p-2 rounded-lg border border-zinc-800';
+        row.innerHTML = `
+          <span class="text-[11px] text-zinc-200 truncate">${svc.name}</span>
+          <div class="flex items-center gap-1">
+            <span class="text-xs text-graceGold">$</span>
+            <input type="number" value="${svc.basePrice}" onchange="updateServicePrice(${idx}, this.value)" class="w-16 bg-zinc-900 border border-zinc-700 rounded px-2 py-1 text-xs text-white text-right">
+          </div>
+        `;
+        priceContainer.appendChild(row);
+      });
+    }
+
+    function updateServicePrice(index, newVal) {
+      const parsed = parseFloat(newVal);
+      if (!isNaN(parsed) && parsed >= 0) {
+        studioData.services[index].basePrice = parsed;
+        saveStudioData();
+      }
+    }
+
+    function updateGraceSettings() {
+      studioData.status = document.getElementById('admin-status-select').value;
+      studioData.whatsapp = document.getElementById('admin-whatsapp').value.trim();
+
+      const checkedPayments = [];
+      document.querySelectorAll('.admin-pay-check:checked').forEach(cb => checkedPayments.push(cb.value));
+      if (checkedPayments.length > 0) {
+        studioData.paymentMethods = checkedPayments;
+      }
+
+      saveStudioData();
+    }
+
+    function saveStudioData() {
+      localStorage.setItem('grace_studio_data', JSON.stringify(studioData));
+      document.getElementById('availability-badge').innerText = studioData.status;
+      renderServices();
+      renderPaymentOptions();
+      updateQuoteSummary();
+    }
+
+    function resetDefaults() {
+      localStorage.removeItem('grace_studio_data');
+      studioData = JSON.parse(JSON.stringify(defaultStudioData));
+      saveStudioData();
+      renderOwnerEditors();
+    }
+
+    // Initialize App on Load
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('availability-badge').innerText = studioData.status;
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      document.getElementById('preferred-date').value = tomorrow.toISOString().split('T')[0];
+
+      renderServices();
+      renderPaymentOptions();
+      updateQuoteSummary();
+    });
+  </script>
+</body>
+</html>
